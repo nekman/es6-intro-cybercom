@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>ES2015</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+		<link rel="stylesheet" href="lib/css/github-gist.css">
+		<style>
+		.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+			text-transform: none;
+		}
+		code, pre {
+			outline-color: invert;
+		}
+		::selection {
+		  background-color: rgb(248, 238, 199) !important;
+			color: inherit;
+		}
+		</style>
+	</head>
+
+	<body class="reveal-viewport theme-font-montserrat theme-color-white-blue" spellcheck="false">
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>ECMAScript 2015</h1>
+					<i>aka</i>
+					<p>
+						ES2015<br>
+						ES6<br>
+						Harmony<br>
+						ESNext<br>
+						ECMA-262, 6th edition<br>
+					</p>
+					<br>
+					<small>Använd piltangenter för att växla slide</small><br>
+					<small><code>Esc</code> för att zooma ut</small><br>
+					<small><code>Shift + Enter</code> för att köra kod i boxar</small>
+				</section>
+
+				<section>
+					<h2>Historik</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Release</th>
+								<th>År</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>ES1</td>
+								<td>1997</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>ES2</td>
+								<td>1998</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>ES3</td>
+								<td>1999</td>
+								<td>
+									RegExp - ​förbättringar<br>
+									try/catch
+								</td>
+							</tr>
+							<tr>
+								<td>ES5</td>
+								<td>2009</td>
+								<td>
+									Inbyggt stöd för ​JSON (stringify/parse)<br>
+									Utökade metoder på Array
+								</td>
+							</tr>
+							<tr>
+								<td>ES Harmony</td>
+								<td>2011</td>
+								<td>
+									Påbörjade arbetet med ES6 som kallades ES Harmony.
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Historik</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Release</th>
+								<th>År</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>ES6</td>
+								<td>2015, juni</td>
+								<td>
+									Mycket stor uppdatering (bakåtkompatibel med ES5).<br>
+									Årligt release schema! ES2016, ES2017 osv.
+									<ul>
+									<li>Scoping</li>
+									<li>Moduler</li>
+									<li>Klasser</li>
+									<li>Nya objekt och nyheter i befintliga API</li>
+									</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+
+				<section>
+					<section>
+						<h1>Show me the code!</h1>
+					</section>
+
+					<section>
+							<h4>Blockscope</h4>
+							<pre class="javascript"><code contenteditable>
+function printNumbers() {
+  for (var i = 0; i < 3; i++) {
+    var j = i;
+    console.log(j);
+  }
+
+  console.log(j);
+}
+
+printNumbers();
+							</code></pre>
+						</section>
+
+						<section>
+							<h4>Summering blockscope</h4>
+							<q><code>const</code> is the new <code>var</code>.</q>
+
+							<p>
+								Råkat skriva <code>let</code>? Tänk efter om du egentligen inte menade <code>const</code>.
+							</p>
+						</section>
+					</section>
+
+					<section>
+						<section>
+							<h1>Template strings</h1>
+						</section>
+
+						<section>
+								<h4>Template strings</h4>
+								<small>
+									<q>"Template strings are enclosed by the back-tick (` `) (grave accent) character instead of double or single quotes"</q>
+									- <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/template_strings">https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/template_strings</a>
+							 	</small>
+
+								<pre class="javascript"><code contenteditable>
+const user = { name: 'nils.ekman@cybercom.com '}
+console.log(`Hello ${user.name}!`);
+
+// Multiline strings
+console.log(`
+  Hello ${user.name}!
+  Is it monday? ${new Date().getDay() === 1 ? 'yes' : 'no'}
+`);
+								</code></pre>
+						</section>
+
+						<section>
+							<h4>Tagged template strings</h4>
+							<pre class="javascript"><code contenteditable>
+function format(template, expressions) {
+  console.log(template, expressions);
+  return template.join('');
+}
+
+// Custom format/parse
+console.log(format`This is my text ${window.screen.height}!`);
+							</code></pre>
+						</section>
+
+						</section>
+				<section>
+					<section>
+					 <h1>Object literals</h1>
+					</section>
+
+					<section>
+						<h4>Object literals</h4>
+						<pre class="javascript"><code contenteditable>
+// ES5
+var Base64 = {
+  encode: function(text) {
+    return window.btoa(text);
+  },
+
+  decode: function(encoded) {
+    return window.atob(encoded);
+  }
+};
+
+console.log(Base64.encode('hello'));
+				</code></pre>
+					</section>
+
+				<section>
+					<h4>Object literals - Computed property names</h4>
+					<pre class="javascript"><code contenteditable>
+const key = 123;
+// ES5
+const MyOldObj = {};
+MyOldObj['prefix' + key] = 'value'
+
+// ES6
+const MyObj = {
+  ['prefix' + key]: 'value'
+};
+
+console.log(MyObj);
+			</code></pre>
+				</section>
+
+				</section>
+
+				<section>
+					<section>
+					 <h1>Klasser</h1>
+					</section>
+
+					<section>
+						<h4>"Klasser" i ES5</h4>
+						<pre class="javascript"><code contenteditable>
+// ES5 prototypical inheritance
+function Polygon(width, height) {
+  this.height = height;
+  this.width = width;
+}
+
+Polygon.prototype.getInfo = function() {
+  return 'Height:' + this.height + ' Width:' + this.width;
+};
+
+function Square(x, y) {
+  Polygon.call(this, x, y);
+}
+
+Square.prototype = Polygon.prototype;
+Square.prototype.setWidth = function(width) {
+  this.width = width;
+  this.height = width;
+};
+
+Square.prototype.setHeight = function(height) {
+  this.width = height;
+  this.height = height;
+};
+
+var square = new Square(5, 5);
+
+console.log(square.getInfo());
+square.setWidth(7);
+
+console.log(square.getInfo());
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Klasser i ES6</h4>
+						<pre class="javascript"><code contenteditable>
+// ES6 prototypical inheritance
+class Polygon {
+  constructor(width, height) {
+    this.height = height;
+    this.width = width;
+  }
+
+  getInfo() {
+    return `Height: ${this.height} Width: ${this.width}`;
+  }
+}
+
+class Square extends Polygon {
+  constructor(width, height) {
+    super(width, height);
+  }
+
+  setWidth(width) {
+    this.width = width;
+    this.height = width;
+  }
+
+  setHeight(height) {
+    this.width = height;
+    this.height = height;
+  }
+}
+
+const square = new Square(5, 5);
+
+console.log(square.getInfo());
+square.setWidth(7);
+
+console.log(square.getInfo());
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Summering klasser</h4>
+						<p>Tydligare kod</p>
+						<p>Enklare att föra resonemang kring koden</p>
+						<p>Syntaktiskt socker på "prototypical inheritance"</p>
+					</section>
+				</section>
+
+
+
+				<section>
+					<section>
+							<h4>Default parametrar</h4>
+							<pre class="javascript"><code contenteditable>
+function send(to, message = 'default message') {
+  console.log('Sending message "%s" to %s', message, to);
+}
+
+send('nils.ekman@cybercom.com');
+send('nils.ekman@cybercom.com', 'my message');
+							</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>Destructing</h1>
+					</section>
+
+					<section>
+							<h4>Destructing</h4>
+							<pre class="javascript"><code contenteditable>
+const { height, width } = window.screen;
+console.log('h: %d, w: %d', height, width);
+
+// Samma som:
+const height = window.screen.height;
+const width = window.screen.width;
+							</code></pre>
+					</section>
+
+					<section>
+							<h4>Destructing</h4>
+							<pre class="javascript"><code contenteditable>
+const { screen: { height, width } } = window;
+console.log('h: %d, w: %d', height, width);
+							</code></pre>
+					</section>
+
+					<section>
+							<h4>Destructing</h4>
+							<pre class="javascript"><code contenteditable>
+var key = 'myKey';
+var secret = 'mySecret';
+
+// ES6
+const result = { key, secret };
+
+// samma sak i ES5
+var result = { key: key, secret: secret };
+
+							</code></pre>
+					</section>
+
+
+					<section>
+							<h4>Destructing</h4>
+							<pre class="javascript"><code contenteditable>
+class PostHandler {
+  findById(id = 1) {
+    return fetch(`posts.json?id=${id}`)
+      .then(res => res.json())
+      .then(json => this.parsePost(json));
+  }
+
+  parsePost({ title, id }) {
+    console.log(`Title = ${title}, id = ${id}`);
+  }
+}
+
+new PostHandler().findById();
+							</code></pre>
+					</section>
+
+
+				</section>
+
+				<section>
+					<section>
+						<h1>Rest parameters &amp; spread</h1>
+					</section>
+
+					<section>
+							<h4>Rest parameters</h4>
+							<pre class="javascript"><code contenteditable>
+function restParams(first, ...rest) {
+  console.log(first, rest);
+}
+
+restParams('a', 'b', 'c');
+
+							</code></pre>
+					</section>
+
+					<section>
+							<h4>Spread</h4>
+							<pre class="javascript"><code contenteditable>
+// ES5
+function toArray(obj) {
+  return Array.prototype.slice.call(obj);
+}
+var divs = toArray(document.querySelectorAll('div'));
+console.log(divs);
+
+// ES6
+const divs = [...document.querySelectorAll('div')];
+console.log(divs);
+							</code></pre>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h2>Arrow functions</h2>
+					</section>
+					<section>
+						<h4>Arrow functions</h4>
+						<pre class="javascript"><code contenteditable>
+// ES5
+function multiply(a, b) {
+  return a * b;
+}
+
+// ES6 arrow functions (implicit return)
+const multiply = (a, b) => a * b;
+
+// Block kan användas för större funktioner (explicit return)
+const filterNumber = n => {
+  return n > 3;
+};
+
+// Ett argument, behöver inga paranteser
+const filterNumber = n => n > 3;
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Arrow functions</h4>
+
+						<p>Innebörden av <code>this</code> ändras inte med arrow functions</p>
+						<pre class="javascript"><code contenteditable>
+// ES5
+var self = this;
+request(url).then(function(response) {
+  self.handleResponse(response);
+});
+
+// ES5
+request(url).then(function(response) {
+  this.handleResponse(response);
+}.bind(this));
+
+// ES6
+request(url).then(response => {
+  this.handleResponse(response);
+});
+</code></pre>
+				</section>
+
+				<section>
+						<h4>Arrow functions</h4>
+						<pre class="javascript"><code contenteditable>
+const items = [1, 2, 3];
+
+// ES5
+items.map(function(i) { return i * i; })
+     .filter(function(i) { return i > 3; })
+     .forEach(function(i) { console.log(i); });
+
+// ES6
+items.map(i => i * i)
+     .filter(i => i > 3)
+     .forEach(i => console.log(i));
+
+	 				</code></pre>
+				</section>
+
+				<section>
+					<h4>Summering arrow functions</h4>
+					<ul>
+						<li>Bundet till rätt scope. Förhindrar att innebörden av <code>this</code> ändras</li>
+						<li>Implicit returns: <code>const fn = () => expr;</code></li>
+						<li>Paranteser behövs om objekt ska returneras (implicit utan return):<br> <code>const fn = () => ({ expr: '1+1' });</code></li>
+					</ul>
+
+				</section>
+			</section>
+			<section>
+				<section>
+					<h4>Symbols</h4>
+					<p>Ny primitiv typ i ES6.</p>
+				</section>
+
+				<section>
+					<h4>Symbols</h4>
+					<pre class="javascript"><code contenteditable>const mySymbol = Symbol();
+console.log(typeof mySymbol);
+
+// Unika
+console.log(Symbol() === Symbol()); //false
+console.log(Symbol('foo') === Symbol('foo')); //false
+</code></pre>
+				</section>
+
+				<section>
+					<h4>Symbols - som nyckel</h4>
+					<pre class="javascript"><code contenteditable>
+const key = Symbol('key'), secret = Symbol('secret');
+
+class S3Bucket {
+  constructor(awsKey, awsSecret) {
+    this[key] = awsKey;
+    this[secret] = awsSecret;
+  }
+
+  listFiles() {
+    console.log(`using key ${this[key]} and secret ${this[secret]}`);
+  }
+}
+
+const bucket = new S3Bucket('myKey123', 'mySecret321');
+bucket.listFiles();
+
+</code></pre>
+				</section>
+
+			</section>
+
+			<section>
+			<section>
+				<h1>Iterators</h1>
+			</section>
+
+			<section>
+				<h4>Iterators</h4>
+				<p>Alla objekt kan vara itererbara</p>
+				<p>De behöver bara "implementera" en special metod, <code>Symbol.iterator</code></p>
+				<p><code>Symbol.iterator</code> returnerar ett objekt som har en <code>next()</code> metod.</p>
+			</section>
+
+			<section>
+				<h4>Iterators</h4>
+					<pre class="javascript"><code contenteditable>
+const myIterable = {
+  data: [1, 2, 3],
+  [Symbol.iterator]() {
+    let index = 0;
+
+    return {
+      next() {
+        if (index < this.data.length) {
+          return {
+            value: this.data[index++]
+          };
+        }
+        return { done: true };
+      }
+    }
+  }
+};
+
+console.log(Array.from(myIterable));
+
+				</code></pre>
+
+			</section>
+
+			<section>
+					<h4>Iterators</h4>
+					<p>Iterators = lazy</p>
+						<pre class="javascript"><code contenteditable>
+const myIterable = {
+
+  *[Symbol.iterator]() {
+    console.log(1);
+    yield 1;
+    yield 2;
+    yield 3;
+  }
+};
+
+// Drar upp hela iteratorn mha spread.
+console.log([...myIterable])
+
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h4>Iterators</h4>
+						<pre class="javascript"><code contenteditable>
+const myIterable = {
+  counter: 1,
+  [Symbol.iterator]: function* iter() {
+    while(true) {
+      yield this.counter++;
+    }
+  }
+};
+
+// Ett säkrare sätt att iterera är att använda for of
+for (const n of myIterable) {
+  console.log(n);
+  if (n > 9) {
+    break;
+  }
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h4>Summering iterators</h4>
+					<p>Lazy</p>
+					<p>Använd egen iterator, eller *generator</p>
+					<p>Iterera med <code>[...spread]</code>, <code>Array.from</code> eller <code>for-of</code></p>
+				</section>
+			</section>
+
+			<section>
+				<h2>Moduler</h2>
+
+				<section>
+					<p>Ett par ord om scriptladdning</p>
+				</section>
+
+				<section>
+					<p>Existerande tekniker för att hantera laddning av script</p>
+					<ul>
+					 <li>&lt;script&gt; - taggar (inte bra)</li>
+					 <li>AMD - <a href="https://en.wikipedia.org/wiki/Asynchronous_module_definition">Asynchronous module definition</a> (ämnat för webbläsare)</li>
+					 <li><a href="https://en.wikipedia.org/wiki/CommonJS">CommonJS</a> -  (ämnat för server / Node.js)</li>
+				</section>
+
+				<section>
+					<h4>Glöm script-taggar direkt!</h4>
+					<p>Använd AMD eller CommonJS för att hantera beroenden</p>
+					<p>Finns bra hjälpmedel för båda teknikerna, t.ex. WebPack och Browserify (för CommonJS)</p>
+				</section>
+
+				<section>
+					<p>a.js</p>
+							<pre class="javascript"><code contenteditable>
+export function myFunction() {}
+export default {
+  sayHello() {
+    return 'Hello';
+  }
+};
+							</code></pre>
+							<p>b.js</p>
+									<pre class="javascript"><code contenteditable>
+import $ from 'jquery';
+// importera hela innehållet i a.js
+import myLib from './a';
+							</code></pre>
+				</section>
+				<section>
+					<h4>Export / Import</h4>
+						<pre class="javascript"><code contenteditable>
+// Bibliotek
+import $ from 'jquery';
+// Filsystem
+import { elementValidation } from './lib/validation';
+
+export default class Logger {
+  constructor(el, validate = elementValidation) {
+    validate(el);
+    this.$el = $(el);
+  }
+  log(text) {
+    this.$el.append(`<div>${text}</div>`);
+  }
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h4>Summering moduler</h4>
+					<p>Tänk på <a href="https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID</a>-principerna även vid JS-programmering. En klass gör en sak!</p>
+					<p>Använd moduler för att importera/exportera beroenden</p>
+					<p>Flera små filer istället för få stora!</p>
+				</section>
+			</section>
+
+
+			<section>
+				<h1>Ska jag använda ES6 idag?</h1>
+			</section>
+
+			<section>
+				<h1>JA!</h1>
+				<p>Gör ditt yttersta för att undvika något äldre än ES6. Nästa år kommer ES7...</p>
+			</section>
+
+			<section>
+				<h1>Hur kan jag använda ES6 idag när webbläsarna saknar stöd?</h1>
+				<p>Webbläsarstöd: <a href="https://kangax.github.io/compat-table/es6">https://kangax.github.io/compat-table/es6</a></p>
+			</section>
+
+			<section>
+				<h1>Använd en transpiler!</h1>
+				<p>Ett byggsteg som kompilerar ES6 till ES5</p>
+			</section>
+
+			<section>
+				<h1>Demo</h1>
+				<ul>
+					<li>Transpile från ES6 till ES5 med <a href="http://babeljs.io/">Babel.js</a></li>
+					<li><a href="http://browserify.org/">Browserify</a></li>
+					<li>Lintning av kod med <a href="http://eslint.org/">ESLint</a></li>
+				</ul>
+				<br><br>
+				<small>
+					<a href="https://github.com/nekman/es6-vue-babel-eslint-browserify-grunt-starter">https://github.com/nekman/es6-vue-babel-eslint-browserify-grunt-starter</a>
+				</small>
+			</section>
+
+			<section style="font-size: 24px;">
+				<h1>Länkar</h1>
+				<ul>
+					<li>
+							Mer detaljer om ES6
+							<ul>
+								<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference</a></li>
+								<li><a href="https://ponyfoo.com/articles/tagged/es6">https://ponyfoo.com/articles/tagged/es6</a>("in Depth" artiklarna)</li>
+							</ul>
+					</li>
+
+					<li>
+							Komma igång med ES6
+							<ul>
+								<li><a href="http://es6fiddle.net">http://es6fiddle.net</a> (testa ES6 i webbläsaren, finns färdiga exempel att labba med)</li>
+								<li><a href="https://babeljs.io/docs/setup/">https://babeljs.io/docs/setup/</a></li>
+							</ul>
+					</li>
+
+					<li>
+							Blandat
+							<ul>
+								<li><a href="https://kangax.github.io/compat-table/es6">https://kangax.github.io/compat-table/es6</a> (kompabilitetskarta)</li>
+								<li><a href="http://eslint.org">http://eslint.org</a> (bra linter)</li>
+								<li><a href="https://github.com/airbnb/javascript">https://github.com/airbnb/javascript</a> (bra stilguide med vettiga regler för ES6)</li>
+							</ul>
+					</li>
+			</section>
+
+		</div>
+
+		<!-- OBS: Endast för presentationen, såhär inkluderar man normalt inte kod -->
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script src="js/babel.js"></script>
+
+		<script>
+			'use strict';
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: () => hljs.initHighlightingOnLoad() },
+					{ src: 'plugin/zoom-js/zoom.js', async: true }
+				]
+			});
+
+			class ReadyHandler {
+				constructor(nodes) {
+					nodes.forEach(el => el.addEventListener('keydown', e => this.consumeKeyDownEvents(el, e)));
+				}
+
+				consumeKeyDownEvents(el, e) {
+					if (e.shiftKey && e.keyCode === 13) {
+						e.preventDefault();
+
+						hljs.highlightBlock(el);
+						var transpiled = babel.transform(el.innerText, {
+							stage: 0
+						}).code;
+						new Function(transpiled)();
+					}
+				}
+			}
+
+			document.addEventListener('DOMContentLoaded', () => {
+				new ReadyHandler([...document.querySelectorAll('code[contenteditable]')]);
+
+				[...document.querySelectorAll('code:not([contenteditable])')].forEach(el => el.style.color = 'red');
+			});
+		</script>
+
+	</body>
+</html>
